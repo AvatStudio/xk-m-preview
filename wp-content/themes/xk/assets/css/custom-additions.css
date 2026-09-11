@@ -1,0 +1,258 @@
+/* Наши дополнения поверх темы xk — не трогаем оригинальные файлы темы.
+   Чек-лист по зонам (таблица) и карточка реального кейса на страницах услуг. */
+.xk-checklist-table td:first-child {
+	font-weight: 600;
+	text-align: left;
+	background: rgba(255, 75, 43, .05);
+	width: 26%;
+}
+.xk-checklist-table td:last-child,
+.xk-checklist-table th {
+	text-align: left;
+}
+.xk-case-card {
+	display: flex;
+	gap: 40px;
+	align-items: center;
+	flex-wrap: wrap;
+	border: 1px solid rgba(167, 167, 167, .2);
+	border-radius: 8px;
+	padding: 30px;
+}
+.xk-case-media { flex: 1 1 320px; max-width: 420px; }
+.xk-case-media img { width: 100%; height: auto; border-radius: 6px; display: block; }
+.xk-case-body { flex: 2 1 320px; }
+.xk-case-body h4 { margin: 0 0 15px; font-size: 22px; }
+.xk-case-label { font-weight: 600; margin: 0 0 5px; }
+.xk-case-body ul { margin: 0 0 15px 20px; padding: 0; }
+.xk-case-price { font-size: 18px; margin: 0 0 20px; }
+.xk-case-price strong { color: #303439; }
+
+/* Сетка реальных кейсов (логотип клиента + объём работ) — главная страница.
+   Логотипы даны клиентом (из презентации), точных цен по этим проектам нет —
+   показываем реальный измеримый объём (м²/кол-во проектов), а не выдуманную цену. */
+.xk-cases-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+	gap: 20px;
+}
+.xk-cases-grid .xk-case-tile {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 14px;
+	text-align: center;
+	border: 1px solid rgba(167, 167, 167, .2);
+	border-radius: 8px;
+	padding: 28px 20px 24px;
+}
+.xk-cases-grid .xk-case-tile .xk-case-logo {
+	height: 56px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+.xk-cases-grid .xk-case-tile img {
+	max-height: 56px;
+	max-width: 100%;
+	width: auto;
+	object-fit: contain;
+}
+.xk-cases-grid .xk-case-tile h5 {
+	display: flex;
+	align-self: stretch;
+	align-items: center;
+	justify-content: center;
+	min-height: 40px;
+	margin: 0;
+	font-size: 15px;
+	line-height: 1.3;
+	font-weight: 600;
+	color: #303439;
+}
+.xk-cases-grid .xk-case-tile .xk-case-city {
+	display: flex;
+	align-self: stretch;
+	align-items: flex-start;
+	justify-content: center;
+	min-height: 20px;
+	margin: 0;
+	font-size: 13px;
+	line-height: 1.4;
+	color: #808080;
+}
+.xk-cases-grid .xk-case-tile .xk-case-scope-list {
+	display: flex;
+	flex-direction: column;
+	align-self: stretch;
+	align-items: center;
+	flex: 1 0 auto;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 13px;
+	color: #808080;
+	line-height: 1.5;
+}
+.xk-cases-grid .xk-case-tile .xk-case-scope {
+	margin: 4px 0 0;
+	font-size: 15px;
+	font-weight: 600;
+	color: #303439;
+}
+@media (max-width: 767px) {
+	.xk-checklist-table td:first-child { width: auto; }
+}
+
+/* Таблицы цен (по образцу klining-freshka.ru) */
+.xk-price-table td:first-child,
+.xk-price-table th:first-child {
+	font-weight: 600;
+	text-align: left;
+	background: rgba(255, 75, 43, .05);
+}
+.xk-price-note {
+	text-align: center;
+	font-size: 14px;
+	color: #808080;
+	margin-top: 10px;
+}
+/* На узких экранах у таблицы цен 3-4 колонки не помещаются в ширину —
+   без этого правила таблица раздвигала всю страницу вбок (горизонтальный
+   скролл всей страницы). Даём скроллиться самой таблице, а не странице. */
+@media (max-width: 600px) {
+	.xk-price-table {
+		display: block;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		white-space: nowrap;
+	}
+	/* Подсказка о том, что таблицу можно смахнуть — без неё непонятно,
+	   что часть столбцов не обрезана, а просто уехала за экран (нашёл
+	   аудит мобильной вёрстки 10.09.2026). Вставляем текстом перед уже
+	   существующей подписью под таблицей, HTML на 28 страницах не трогаем. */
+	.xk-price-table + .xk-price-note::before {
+		content: "← Смахните таблицу, чтобы увидеть все столбцы →";
+		display: block;
+		margin-bottom: 8px;
+		color: #b0b0b0;
+	}
+}
+
+/* Плавающий виджет чата (chaty-pro) на мобильном перекрывал кнопки, таблицы
+   и поля форм текстовой плашкой-приглашением ("Связаться с нами"), которая
+   по умолчанию показана до первого клика (настройка show_cta=first_click
+   в самом плагине). На мобильном оставляем только круглую кнопку-триггер,
+   плашка остаётся только на десктопе по наведению — сам виджет и переход
+   в мессенджеры не трогаем. Найдено аудитом мобильной вёрстки 10.09.2026. */
+@media (max-width: 767px) {
+	.chaty-tooltip.active:after,
+	.chaty-tooltip.active:before,
+	.chaty-tooltip.active .on-hover-text,
+	.chaty-tooltip.active .on-hover-text:before {
+		display: none !important;
+		opacity: 0 !important;
+	}
+}
+
+/* Блок-приглашение в анкету «Рассчитать точную стоимость» на страницах услуг —
+   тёмная рамка-плашка с тем же фоном, что и у нативного блока «Станьте нашим
+   постоянным клиентом» (стоит на каждой странице сайта), чтобы не выбиваться
+   из общего вида; радиус кнопки взят от того же нативного блока (cz_60479) */
+.xk-cta-block {
+	max-width: 640px;
+	margin: 0 auto;
+	text-align: center;
+	background-image: url(/xk-m-preview/wp-content/uploads/2026/07/wht_lg_mb_2026.jpg?id=3472);
+	background-position: 0 0;
+	background-repeat: no-repeat;
+	background-size: cover;
+	border: 3px solid #303439;
+	border-radius: 20px;
+	padding: 35px;
+}
+.xk-cta-block h4 { margin: 0 0 10px; color: #303439; }
+.xk-cta-block p { margin: 0 0 20px; color: #808080; }
+.xk-cta-block .cz_btn {
+	background-color: #303439 !important;
+	color: #ffffff !important;
+	border-style: solid !important;
+	border-color: #303439 !important;
+	border-radius: 15px !important;
+}
+.xk-cta-block .cz_btn:hover {
+	background-color: #ffffff !important;
+	color: #303439 !important;
+}
+
+/* На части исходных страниц вёрстка ошибочно применяет к текстовым спискам
+   стиль фото-плашки (задник + скругление), скопированный из виджета формы —
+   получается узкая обрезанная "карточка" с маркером списка, торчащим за её
+   пределами. Возвращаем такие списки к обычному виду. */
+.cz_title_has_bg:has(> .cz_title_content > .cz_wpe_content > ul) .cz_title_content {
+	background-image: none !important;
+	background-color: transparent !important;
+	padding: 0 !important;
+	border-radius: 0 !important;
+	display: block !important;
+	width: 100% !important;
+}
+.cz_title_has_bg:has(> .cz_title_content > .cz_wpe_content > ul) .cz_title_content h3,
+.cz_title_has_bg:has(> .cz_title_content > .cz_wpe_content > ul) .cz_title_content h4 {
+	color: #303439 !important;
+	font-weight: 400 !important;
+}
+.cz_title_has_bg:has(> .cz_title_content > .cz_wpe_content > ul) .cz_title_content ul {
+	padding-left: 20px !important;
+	margin: 0 0 10px !important;
+}
+.cz_title_has_bg:has(> .cz_title_content > .cz_wpe_content > ul) .cz_title_content li {
+	margin-bottom: 8px !important;
+}
+
+/* Текстовый блок с иконкой сбоку (короткие объясняющие абзацы на страницах услуг) —
+   текст слева по левому краю, иконка справа; на мобильном иконка уходит наверх,
+   текст под ней по центру. */
+.xk-text-media {
+	display: flex;
+	align-items: center;
+	gap: 40px;
+	max-width: 980px;
+	margin: 0 auto;
+}
+.xk-text-media-body {
+	flex: 1 1 55%;
+	text-align: left;
+}
+.xk-text-media-body h3 {
+	margin: 0 0 15px;
+	color: #303439;
+}
+.xk-text-media-body p {
+	margin: 0;
+	color: #555555;
+	line-height: 1.7;
+}
+.xk-text-media-image {
+	flex: 0 0 200px;
+	display: flex;
+	justify-content: center;
+}
+.xk-text-media-image img {
+	width: 100%;
+	max-width: 200px;
+	height: auto;
+}
+@media (max-width: 767px) {
+	.xk-text-media {
+		flex-direction: column;
+		text-align: center;
+	}
+	.xk-text-media-body {
+		text-align: center;
+	}
+	.xk-text-media-image {
+		flex: 0 0 auto;
+		width: 140px;
+	}
+}
